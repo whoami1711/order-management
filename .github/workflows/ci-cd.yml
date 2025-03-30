@@ -36,3 +36,14 @@ jobs:
           mkdir -p deploy
           cp target/*.jar deploy/ || echo "No jar file found (project might not generate jar)"
           echo "Deployment simulation completed!"
+      - name: SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn sonar:sonar \
+          -Dsonar.projectKey=whoami1711_order-management \
+          -Dsonar.organization=whoami1711 \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=$SONAR_TOKEN \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
